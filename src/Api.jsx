@@ -29,10 +29,13 @@ export const generateCertificates = async (textConfig, uploadedData) => {
 
 export const uploadFiles = async (formData) => {
   try {
-    const response = await fetch("http://127.0.0.1:5000/upload", {
-      method: "POST",
-      body: formData,
-    });
+    const response = await fetch(
+      "https://certificate-generator-production-616d.up.railway.app",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
 
     if (!response.ok) {
       const errorData = await response.json();
