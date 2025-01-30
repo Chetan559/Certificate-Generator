@@ -6,3 +6,4 @@ PyMuPDF
 requests
 cloudinary
 openpyxl
+gunicorn
