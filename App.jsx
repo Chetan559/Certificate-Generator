@@ -6,8 +6,8 @@ function App() {
   const [excelFile, setExcelFile] = useState(null);
   const [message, setMessage] = useState("");
   const [isGenerated, setIsGenerated] = useState(false);
-  const [pdfUrl, setPdfUrl] = useState(""); // Store PDF URL
-  const [excelUrl, setExcelUrl] = useState(""); // Store Excel URL
+  const [pdfUrl, setPdfUrl] = useState("");
+  const [excelUrl, setExcelUrl] = useState("");
 
   const handlePdfChange = (e) => {
     setPdfFile(e.target.files[0]);
@@ -33,8 +33,8 @@ function App() {
         }
       );
       setMessage(response.data.message);
-      setPdfUrl(response.data.pdf_url); // Set PDF URL from response
-      setExcelUrl(response.data.excel_url); // Set Excel URL from response
+      setPdfUrl(response.data.pdf_url);
+      setExcelUrl(response.data.excel_url);
     } catch (error) {
       setMessage(error.response.data.error);
     }
@@ -47,7 +47,6 @@ function App() {
     }
 
     try {
-      // Send the URLs to the backend for certificate generation
       const response = await axios.get("http://localhost:5000/generate", {
         params: {
           pdf_url: pdfUrl,

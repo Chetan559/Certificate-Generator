@@ -1,11 +1,22 @@
 import React from "react";
-import { generateCertificates } from "../Api"; // Ensure the path is correct
+import { generateCertificates } from "../Api";
 
-const Download = ({ textConfig, uploadedData }) => {
+const Download = ({ uploadedData, textConfig }) => {
   const handleDownload = async () => {
+    if (!uploadedData) {
+      alert("Upload files first!");
+      return;
+    }
+
     try {
-      const zipBlob = await generateCertificates(textConfig, uploadedData);
-      const url = window.URL.createObjectURL(zipBlob);
+      const data = {
+        excel_url: uploadedData.excel_url,
+        pdf_url: uploadedData.pdf_url,
+        text_config: textConfig,
+      };
+
+      const blob = await generateCertificates(data);
+      const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
       a.download = "certificates.zip";
@@ -13,7 +24,7 @@ const Download = ({ textConfig, uploadedData }) => {
       a.click();
       document.body.removeChild(a);
     } catch (error) {
-      console.error("Download failed:", error);
+      console.error("Download error:", error);
     }
   };
 

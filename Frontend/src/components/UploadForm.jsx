@@ -23,7 +23,7 @@ const UploadForm = ({ setUploadedData }) => {
 
       const response = await uploadFiles(formData);
 
-      console.log("API Response:", response); // Log response for debugging
+      console.log("API Response:", response);
 
       if (response && response.pdf_url && response.excel_url) {
         setUploadedData(response);

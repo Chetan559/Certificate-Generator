@@ -1,5 +1,5 @@
 import React from "react";
-import { generateCertificates } from "../api";
+import { generateCertificates } from "../Api";
 
 const Download = ({ uploadedData, textConfig }) => {
   const handleGenerate = async () => {

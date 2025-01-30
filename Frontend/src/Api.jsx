@@ -2,9 +2,7 @@ export const generateCertificates = async (textConfig, uploadedData) => {
   try {
     const response = await fetch("http://127.0.0.1:5000/generate", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         pdf_url: uploadedData.pdf_url,
         excel_url: uploadedData.excel_url,
@@ -13,25 +11,37 @@ export const generateCertificates = async (textConfig, uploadedData) => {
     });
 
     if (!response.ok) {
-      throw new Error("Failed to generate certificates");
+      const errorData = await response.json();
+      throw new Error(errorData.error || "Failed to generate certificates");
     }
 
-    return await response.blob(); // Returns the ZIP file as a blob
+    const zipBlob = await response.blob();
+    const contentDisposition = response.headers.get("Content-Disposition");
+    const zipFilename =
+      contentDisposition?.split("filename=")[1] || "certificates.zip";
+
+    return { zipBlob, zipFilename };
   } catch (error) {
-    console.error("Generate Certificates API error:", error);
+    console.error("API Error:", error);
     throw error;
   }
 };
 
 export const uploadFiles = async (formData) => {
-  const response = await fetch("http://127.0.0.1:5000/upload", {
-    method: "POST",
-    body: formData,
-  });
+  try {
+    const response = await fetch("http://127.0.0.1:5000/upload", {
+      method: "POST",
+      body: formData,
+    });
 
-  if (!response.ok) {
-    throw new Error("Upload failed");
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || "Upload failed");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Upload Error:", error);
+    throw error;
   }
-
-  return await response.json();
 };

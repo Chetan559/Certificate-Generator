@@ -1,1 +1,8 @@
-Flask and dependencies here
+flask
+flask-cors
+python-dotenv
+pandas
+PyMuPDF
+requests
+cloudinary
+openpyxl
