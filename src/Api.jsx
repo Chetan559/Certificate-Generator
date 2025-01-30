@@ -1,14 +1,17 @@
 export const generateCertificates = async (textConfig, uploadedData) => {
   try {
-    const response = await fetch("http://127.0.0.1:5000/generate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        pdf_url: uploadedData.pdf_url,
-        excel_url: uploadedData.excel_url,
-        text_config: textConfig,
-      }),
-    });
+    const response = await fetch(
+      "https://certificate-generator-production-616d.up.railway.app/generate",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          pdf_url: uploadedData.pdf_url,
+          excel_url: uploadedData.excel_url,
+          text_config: textConfig,
+        }),
+      }
+    );
 
     if (!response.ok) {
       const errorData = await response.json();
@@ -30,7 +33,7 @@ export const generateCertificates = async (textConfig, uploadedData) => {
 export const uploadFiles = async (formData) => {
   try {
     const response = await fetch(
-      "https://certificate-generator-production-616d.up.railway.app",
+      "https://certificate-generator-production-616d.up.railway.app/upload",
       {
         method: "POST",
         body: formData,
